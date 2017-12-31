@@ -1,5 +1,26 @@
 apply plugin: 'com.android.application'
 
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:design:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    implementation 'com.google.code.gson:gson:2.8.2'
+
+    implementation 'com.squareup.okhttp3:okhttp:3.9.1'
+
+    // retrofit
+    implementation('com.squareup.retrofit2:retrofit:2.3.0') {
+        exclude module: 'okhttp'
+    }
+    implementation 'com.squareup.retrofit2:converter-scalars:2.3.0'
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+}
+
 android {
     compileSdkVersion 26
     defaultConfig {
@@ -11,7 +32,12 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            resValue "string", "app_name", "Debug Awesome Splash"
+        }
         release {
+            resValue "string", "app_name", "Awesome Splash"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -20,14 +46,23 @@ android {
     dataBinding {
         enabled = true
     }
-}
 
-dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support:design:26.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes.each {
+        def buildType = 'debug'.equals(it.name) ? 'debug' : it.name
+
+        def Properties props = new Properties()
+        def propFile = file("../config-${buildType}.properties")
+
+        if (propFile.canRead()) {
+            props.load(new FileInputStream(propFile))
+            if (props != null) {
+                it.buildConfigField("String", "UNSPLASH_APPLICATION_ID", "\"${props['UNSPLASH_APPLICATION_ID']}\"")
+            }
+        }
+    }
 }

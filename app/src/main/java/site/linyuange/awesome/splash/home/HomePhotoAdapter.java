@@ -1,8 +1,9 @@
-package site.linyuange.awesome.splash;
+package site.linyuange.awesome.splash.home;
 
 
 import android.support.annotation.Nullable;
 
+import site.linyuange.awesome.splash.R;
 import site.linyuange.awesome.splash.base.BaseDataBindingAdapter;
 
 public class HomePhotoAdapter extends BaseDataBindingAdapter {
