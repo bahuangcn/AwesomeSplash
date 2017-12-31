@@ -25,7 +25,7 @@ public abstract class BaseDataBindingAdapter extends RecyclerView.Adapter<DataBi
 
     @Override
     public void onBindViewHolder(DataBindingViewHolder holder, int position) {
-        holder.bind();
+        holder.bind(getItemByPosition(position));
     }
 
     @Nullable

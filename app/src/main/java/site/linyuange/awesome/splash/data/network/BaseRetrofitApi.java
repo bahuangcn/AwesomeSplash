@@ -39,7 +39,7 @@ public abstract class BaseRetrofitApi<T> {
                     Request.Builder requestBuilder = chain.request().newBuilder();
 
                     requestBuilder.header("Accept-Version", "v1");
-                    requestBuilder.header("Authorization", "Client-ID " + BuildConfig.APPLICATION_ID);
+                    requestBuilder.header("Authorization", "Client-ID " + BuildConfig.UNSPLASH_APPLICATION_ID);
 
                     return chain.proceed(requestBuilder.build());
                 })

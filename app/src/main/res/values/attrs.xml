@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="SplashPhoto">
+        <attr name="position" format="integer"/>
+        <attr name="srcHeight" format="integer|reference"/>
+        <attr name="srcWidth" format="integer|reference"/>
+        <attr name="guideSide" format="enum">
+            <enum name="width" value="0"/>
+            <enum name="height" value="1"/>
+        </attr>
+    </declare-styleable>
+
+
+</resources>

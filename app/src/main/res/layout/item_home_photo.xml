@@ -4,6 +4,13 @@
 
     <data>
 
+        <import type="android.graphics.Color"/>
+
+        <variable
+            name="item"
+            type="site.linyuange.awesome.splash.data.model.PhotoEntity"
+            />
+
         <variable
             name="position"
             type="int"
@@ -12,17 +19,22 @@
 
     <android.support.constraint.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
 
-        <Button
+        <site.linyuange.awesome.splash.view.SplashPhoto
+            android:id="@+id/splash_photo"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_margin="16dp"
-            android:gravity="center"
-            android:text="@{String.valueOf(position)}"
+            android:layout_height="wrap_content"
+            android:background="@{Color.parseColor(item.color)}"
+            android:minHeight="100dp"
+            app:SimpleLoadImage="@{item.urls.full}"
+            app:guideSide="width"
+            app:position="@{position}"
+            app:srcHeight="@{item.height}"
+            app:srcWidth="@{item.width}"
             />
-
     </android.support.constraint.ConstraintLayout>
 </layout>
