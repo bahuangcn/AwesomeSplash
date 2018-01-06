@@ -1,8 +1,10 @@
 package site.linyuange.awesome.splash.home;
 
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.graphics.ColorUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,8 @@ import site.linyuange.awesome.splash.utils.ImageLoader;
 public class HomePhotoAdapter extends BaseDataBindingAdapter {
 
     private static final int ITEM_LOADING_MORE = 1;
+    // 20% transparency: 255 * 0.2 = 55
+    private static final int PHOTO_SUMMARY_TRANSPARENCY = 55;
 
     private OnAllPhotosViewedListener mListener;
 
@@ -64,6 +68,8 @@ public class HomePhotoAdapter extends BaseDataBindingAdapter {
         if (item == null) return;
         binding.splashPhoto.setSrcHeight(item.getHeight());
         binding.splashPhoto.setSrcWidth(item.getWidth());
+        int color = ColorUtils.setAlphaComponent(Color.parseColor(item.getColor()), PHOTO_SUMMARY_TRANSPARENCY);
+        binding.photoSummary.setBackgroundColor(color);
         ImageLoader.loadImage(binding.splashPhoto, item.getUrls().getRegular());
     }
 

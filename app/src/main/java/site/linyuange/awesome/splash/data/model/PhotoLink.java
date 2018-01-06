@@ -1,7 +1,7 @@
 package site.linyuange.awesome.splash.data.model;
 
 
-public class PhotoLinkEntity {
+public class PhotoLink {
     /*
     "links": {
         "self": "api.unsplash.com/photos/uwQlgl4NbSg",

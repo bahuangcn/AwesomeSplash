@@ -1,7 +1,7 @@
 package site.linyuange.awesome.splash.data.model;
 
 
-public class PhotoUrlEntity {
+public class PhotoUrl {
     /*
     "urls": {
         "raw": "https://images.unsplash.com/reserve/unsplash_528b27288f41f_1.JPG",

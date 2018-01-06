@@ -37,7 +37,8 @@ public class PhotoEntity {
     private int width;
     private int height;
 
-    private PhotoUrlEntity urls;
+    private UserEntity user;
+    private PhotoUrl urls;
 
     public String getId() {
         return id;
@@ -103,11 +104,19 @@ public class PhotoEntity {
         this.height = height;
     }
 
-    public PhotoUrlEntity getUrls() {
+    public PhotoUrl getUrls() {
         return urls;
     }
 
-    public void setUrls(PhotoUrlEntity urls) {
+    public void setUrls(PhotoUrl urls) {
         this.urls = urls;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 }
