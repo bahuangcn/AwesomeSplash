@@ -14,6 +14,8 @@ import site.linyuange.awesome.splash.databinding.ActivityMainBinding;
 public class MainActivity extends AbsBaseActivity implements HomeContract.View,
         HomePhotoAdapter.OnAllPhotosViewedListener {
 
+    private static final int DISPLAY_PHOTOS_DURATION = 700;
+
     private ActivityMainBinding mBinding;
     private HomePresenter mPresenter;
     private HomePhotoAdapter mAdapter;
@@ -29,6 +31,7 @@ public class MainActivity extends AbsBaseActivity implements HomeContract.View,
         mAdapter.setListener(this);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mBinding.recyclerView.setAdapter(mAdapter);
+        mBinding.recyclerView.setAlpha(0);
         mPresenter = new HomePresenter(this);
         mPresenter.start();
     }
@@ -41,6 +44,11 @@ public class MainActivity extends AbsBaseActivity implements HomeContract.View,
     @Override
     public void showPhotos(@NonNull List<PhotoEntity> photos) {
         mAdapter.setPhotos(photos);
+        mBinding.recyclerView
+                .animate()
+                .alphaBy(0)
+                .alpha(1)
+                .setDuration(DISPLAY_PHOTOS_DURATION);
     }
 
     @Override
