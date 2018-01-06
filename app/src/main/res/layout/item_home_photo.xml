@@ -29,12 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@{Color.parseColor(item.color)}"
-            android:minHeight="100dp"
-            app:SimpleLoadImage="@{item.urls.full}"
             app:guideSide="width"
-            app:position="@{position}"
-            app:srcHeight="@{item.height}"
-            app:srcWidth="@{item.width}"
             />
     </android.support.constraint.ConstraintLayout>
 </layout>

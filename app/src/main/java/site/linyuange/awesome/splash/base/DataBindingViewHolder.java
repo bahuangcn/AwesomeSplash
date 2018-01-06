@@ -2,6 +2,7 @@ package site.linyuange.awesome.splash.base;
 
 
 import android.databinding.ViewDataBinding;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 
 import com.android.databinding.library.baseAdapters.BR;
@@ -15,7 +16,11 @@ public class DataBindingViewHolder extends RecyclerView.ViewHolder {
         mBinding = binding;
     }
 
-    public void bind(Object obj) {
+    public ViewDataBinding getBinding() {
+        return mBinding;
+    }
+
+    public void bind(@NonNull Object obj) {
         mBinding.setVariable(BR.item, obj);
         mBinding.setVariable(BR.position, getAdapterPosition());
     }

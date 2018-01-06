@@ -15,7 +15,6 @@ public class SplashPhoto extends AppCompatImageView {
     private static final int GUIDE_HEIGHT = 1;
     private static final float DEFAULT_SRC_SIZE = 0F;
 
-    private int mPosition;
     private int mGuideSide;
     private float mSrcWidth;
     private float mSrcHeight;
@@ -37,16 +36,20 @@ public class SplashPhoto extends AppCompatImageView {
         typedArray.recycle();
     }
 
-    public void setPosition(int position) {
-        mPosition = position;
-    }
-
     public void setSrcHeight(float srcHeight) {
         mSrcHeight = srcHeight;
+        checkToRequestLayout();
     }
 
     public void setSrcWidth(float srcWidth) {
         mSrcWidth = srcWidth;
+        checkToRequestLayout();
+    }
+
+    private void checkToRequestLayout() {
+        if (mSrcHeight > DEFAULT_SRC_SIZE && mSrcWidth > DEFAULT_SRC_SIZE) {
+            requestLayout();
+        }
     }
 
     @Size(2)
@@ -63,11 +66,11 @@ public class SplashPhoto extends AppCompatImageView {
             int height;
             float ratio;
             if (mGuideSide == GUIDE_WIDTH) {
-                width = getMeasuredWidth();
+                width = MeasureSpec.getSize(widthMeasureSpec);
                 ratio = mSrcWidth / width;
                 height = (int) (mSrcHeight / ratio + 0.5);
             } else {
-                height = getMeasuredHeight();
+                height = MeasureSpec.getSize(heightMeasureSpec);
                 ratio = mSrcHeight / height;
                 width = (int) (mSrcWidth / ratio + 0.5);
             }

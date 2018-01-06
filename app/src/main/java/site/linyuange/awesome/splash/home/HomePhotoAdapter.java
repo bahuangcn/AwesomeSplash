@@ -9,7 +9,10 @@ import java.util.List;
 
 import site.linyuange.awesome.splash.R;
 import site.linyuange.awesome.splash.base.BaseDataBindingAdapter;
+import site.linyuange.awesome.splash.base.DataBindingViewHolder;
 import site.linyuange.awesome.splash.data.model.PhotoEntity;
+import site.linyuange.awesome.splash.databinding.ItemHomePhotoBinding;
+import site.linyuange.awesome.splash.utils.ImageLoader;
 
 public class HomePhotoAdapter extends BaseDataBindingAdapter {
 
@@ -32,6 +35,18 @@ public class HomePhotoAdapter extends BaseDataBindingAdapter {
     @Override
     protected Object getItemByPosition(int position) {
         return mPhotos.get(position);
+    }
+
+    @Override
+    public void onBindViewHolder(DataBindingViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
+        // DO NOT use data binding to set src size and download photo.
+        ItemHomePhotoBinding binding = (ItemHomePhotoBinding) holder.getBinding();
+        PhotoEntity item = (PhotoEntity) getItemByPosition(position);
+        if (item == null) return;
+        binding.splashPhoto.setSrcHeight(item.getHeight());
+        binding.splashPhoto.setSrcWidth(item.getWidth());
+        ImageLoader.loadImage(binding.splashPhoto, item.getUrls().getRegular());
     }
 
     @Override
