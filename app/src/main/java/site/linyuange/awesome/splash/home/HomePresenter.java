@@ -16,13 +16,14 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void start() {
-        mPhotoRepository.getPhotos(PhotoApi.ORDER_LATEST, photos ->
-                mView.showPhotos(photos)
+        mPhotoRepository.getPhotos(PhotoApi.ORDER_LATEST,
+                photos -> mView.showPhotos(photos)
         );
     }
 
     @Override
     public void loadMorePhotos() {
-        mPhotoRepository.getMorePhotos(photos -> mView.showMorePhotos(photos));
+        mPhotoRepository.getPhotos(PhotoApi.ORDER_LATEST,
+                photos -> mView.showMorePhotos(photos));
     }
 }

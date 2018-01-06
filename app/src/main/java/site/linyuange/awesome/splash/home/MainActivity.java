@@ -11,7 +11,8 @@ import site.linyuange.awesome.splash.base.AbsBaseActivity;
 import site.linyuange.awesome.splash.data.model.PhotoEntity;
 import site.linyuange.awesome.splash.databinding.ActivityMainBinding;
 
-public class MainActivity extends AbsBaseActivity implements HomeContract.View {
+public class MainActivity extends AbsBaseActivity implements HomeContract.View,
+        HomePhotoAdapter.OnAllPhotosViewedListener {
 
     private ActivityMainBinding mBinding;
     private HomePresenter mPresenter;
@@ -25,6 +26,7 @@ public class MainActivity extends AbsBaseActivity implements HomeContract.View {
     @Override
     protected void initData() {
         mAdapter = new HomePhotoAdapter();
+        mAdapter.setListener(this);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mBinding.recyclerView.setAdapter(mAdapter);
         mPresenter = new HomePresenter(this);
@@ -44,5 +46,10 @@ public class MainActivity extends AbsBaseActivity implements HomeContract.View {
     @Override
     public void showMorePhotos(@NonNull List<PhotoEntity> photos) {
         mAdapter.addMorePhotos(photos);
+    }
+
+    @Override
+    public void loadMorePhotos() {
+        mPresenter.loadMorePhotos();
     }
 }
