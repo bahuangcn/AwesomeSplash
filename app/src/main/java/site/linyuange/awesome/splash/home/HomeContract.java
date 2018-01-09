@@ -14,6 +14,8 @@ public interface HomeContract {
         void showPhotos(@NonNull List<PhotoEntity> photos);
 
         void showMorePhotos(@NonNull List<PhotoEntity> photos);
+
+        void showLoadFailed(String msg);
     }
 
     interface Presenter extends BasePresenter {

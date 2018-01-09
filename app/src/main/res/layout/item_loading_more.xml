@@ -4,28 +4,40 @@
 
     <data>
 
+        <import type="site.linyuange.awesome.splash.data.model.Footer"/>
+
+        <import type="site.linyuange.awesome.splash.home.FooterViewHolder.OnFooterClickListener"/>
+
         <variable
             name="item"
-            type="Object"
+            type="Footer"
             />
 
         <variable
             name="position"
             type="int"
             />
+
+        <variable
+            name="listener"
+            type="OnFooterClickListener"
+            />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="#c3c3c3"
+        android:layout_height="@dimen/dp_56"
+        android:background="@color/silver_grey"
         >
 
         <TextView
+            android:id="@+id/tv_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Loading More"
+            android:clickable="@{item.state == Footer.ERROR_STATE}"
+            android:onClick="@{() -> listener.onFooterClicked()}"
+            android:text="@{item.message}"
             />
 
     </RelativeLayout>

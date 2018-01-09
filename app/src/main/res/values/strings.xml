@@ -1,3 +1,7 @@
 <resources>
     <!--<string name="app_name">Awesome Splash</string>-->
+
+    <string name="loading_more">Loading More</string>
+    <string name="loading_completed">Loading Completed</string>
+    <string name="something_error">Something Error</string>
 </resources>

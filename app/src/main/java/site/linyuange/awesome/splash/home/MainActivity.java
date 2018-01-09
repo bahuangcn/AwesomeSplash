@@ -1,6 +1,7 @@
 package site.linyuange.awesome.splash.home;
 
 import android.databinding.DataBindingUtil;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 
@@ -12,9 +13,12 @@ import site.linyuange.awesome.splash.data.model.PhotoEntity;
 import site.linyuange.awesome.splash.databinding.ActivityMainBinding;
 
 public class MainActivity extends AbsBaseActivity implements HomeContract.View,
-        HomePhotoAdapter.OnAllPhotosViewedListener {
+        HomePhotoAdapter.OnLoadMoreListener {
 
     private static final int DISPLAY_PHOTOS_DURATION = 700;
+    private static final int ADD_MORE_PHOTOS_DELAY = 700;
+
+    private Handler mHandler;
 
     private ActivityMainBinding mBinding;
     private HomePresenter mPresenter;
@@ -27,8 +31,8 @@ public class MainActivity extends AbsBaseActivity implements HomeContract.View,
 
     @Override
     protected void initData() {
-        mAdapter = new HomePhotoAdapter();
-        mAdapter.setListener(this);
+        mHandler = new Handler();
+        mAdapter = new HomePhotoAdapter(this);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mBinding.recyclerView.setAdapter(mAdapter);
         mBinding.recyclerView.setAlpha(0);
@@ -49,15 +53,22 @@ public class MainActivity extends AbsBaseActivity implements HomeContract.View,
                 .alphaBy(0)
                 .alpha(1)
                 .setDuration(DISPLAY_PHOTOS_DURATION);
+        mAdapter.setLoadMoreEnabled(true);
     }
 
     @Override
     public void showMorePhotos(@NonNull List<PhotoEntity> photos) {
-        mAdapter.addMorePhotos(photos);
+        mAdapter.loadCompleted();
+        mHandler.postDelayed(() -> mAdapter.addMorePhotos(photos), ADD_MORE_PHOTOS_DELAY);
     }
 
     @Override
-    public void loadMorePhotos() {
+    public void showLoadFailed(String msg) {
+        mAdapter.loadFailed();
+    }
+
+    @Override
+    public void loadMore() {
         mPresenter.loadMorePhotos();
     }
 }
