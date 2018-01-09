@@ -1,4 +1,20 @@
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.25.1'
+    }
+}
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -31,6 +47,9 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    compile('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
+        transitive = true;
+    }
 }
 
 android {
@@ -74,6 +93,7 @@ android {
         if (propFile.canRead()) {
             props.load(new FileInputStream(propFile))
             if (props != null) {
+                it.resValue("string", "fabri_id", props['FABRI_ID'])
                 it.resValue("string", "hockey_app_id", "\"${props['HOCKEY_APP_ID']}\"")
                 it.buildConfigField("String", "UNSPLASH_APPLICATION_ID", "\"${props['UNSPLASH_APPLICATION_ID']}\"")
                 it.buildConfigField("String", "API_UNSPLASH_COM", "\"${props['API_UNSPLASH_COM']}\"")

@@ -28,6 +28,9 @@
         <meta-data
             android:name="net.hockeyapp.android.appIdentifier"
             android:value="@string/hockey_app_id"/>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="@string/fabri_id" />
     </application>
 
 </manifest>
