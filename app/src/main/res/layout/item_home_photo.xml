@@ -18,6 +18,11 @@
             name="position"
             type="int"
             />
+
+        <variable
+            name="listener"
+            type="site.linyuange.awesome.splash.home.HomePhotoViewHolder.OnItemClickListener"
+            />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -30,6 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@{Color.parseColor(item.color)}"
+            android:onClick="@{()-> listener.onPhotoClicked()}"
             app:guideSide="width"
             />
 

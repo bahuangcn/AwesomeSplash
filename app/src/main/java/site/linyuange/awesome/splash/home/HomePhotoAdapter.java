@@ -21,7 +21,7 @@ import site.linyuange.awesome.splash.data.model.PhotoEntity;
 import site.linyuange.awesome.splash.databinding.ItemHomePhotoBinding;
 import site.linyuange.awesome.splash.utils.ImageLoader;
 
-public class HomePhotoAdapter extends BaseDataBindingAdapter implements FooterViewHolder.OnFooterClickListener {
+public class HomePhotoAdapter extends BaseDataBindingAdapter implements HomePhotoViewHolder.OnItemClickListener {
 
     private static final int FOOTER_ITEM_COUNT = 1;
     // 20% transparency: 255 * 0.2 = 55
@@ -41,7 +41,7 @@ public class HomePhotoAdapter extends BaseDataBindingAdapter implements FooterVi
     }
 
 
-    private OnLoadMoreListener mListener;
+    private OnListPerformListener mListener;
 
     @NonNull
     private List<PhotoEntity> mPhotos = new ArrayList<>();
@@ -49,7 +49,7 @@ public class HomePhotoAdapter extends BaseDataBindingAdapter implements FooterVi
     private boolean mIsLoadMoreEnabled;
     private boolean mIsLoading;
 
-    public HomePhotoAdapter(@NonNull OnLoadMoreListener listener) {
+    public HomePhotoAdapter(@NonNull OnListPerformListener listener) {
         mFooter = LOADING_STATE;
         mListener = listener;
     }
@@ -92,13 +92,7 @@ public class HomePhotoAdapter extends BaseDataBindingAdapter implements FooterVi
     public DataBindingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         ViewDataBinding binding = DataBindingUtil.inflate(inflater, viewType, parent, false);
-        DataBindingViewHolder holder;
-        if (viewType == R.layout.item_loading_more) {
-            holder = new FooterViewHolder(binding, this);
-        } else {
-            holder = new DataBindingViewHolder(binding);
-        }
-        return holder;
+        return new HomePhotoViewHolder(binding, this);
     }
 
     @Override
@@ -154,7 +148,16 @@ public class HomePhotoAdapter extends BaseDataBindingAdapter implements FooterVi
         loadMorePhotos();
     }
 
-    public interface OnLoadMoreListener {
+    @Override
+    public void onPhotoClicked() {
+        if (mListener != null) {
+            mListener.viewPhotoInfo();
+        }
+    }
+
+    public interface OnListPerformListener {
         void loadMore();
+
+        void viewPhotoInfo();
     }
 }

@@ -6,8 +6,6 @@
 
         <import type="site.linyuange.awesome.splash.data.model.Footer"/>
 
-        <import type="site.linyuange.awesome.splash.home.FooterViewHolder.OnFooterClickListener"/>
-
         <variable
             name="item"
             type="Footer"
@@ -20,7 +18,7 @@
 
         <variable
             name="listener"
-            type="OnFooterClickListener"
+            type="site.linyuange.awesome.splash.home.HomePhotoViewHolder.OnItemClickListener"
             />
     </data>
 

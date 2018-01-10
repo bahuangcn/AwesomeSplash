@@ -13,7 +13,7 @@ import site.linyuange.awesome.splash.data.model.PhotoEntity;
 import site.linyuange.awesome.splash.databinding.ActivityMainBinding;
 
 public class MainActivity extends AbsBaseActivity implements HomeContract.View,
-        HomePhotoAdapter.OnLoadMoreListener {
+        HomePhotoAdapter.OnListPerformListener {
 
     private static final int DISPLAY_PHOTOS_DURATION = 700;
     private static final int ADD_MORE_PHOTOS_DELAY = 700;
@@ -70,5 +70,9 @@ public class MainActivity extends AbsBaseActivity implements HomeContract.View,
     @Override
     public void loadMore() {
         mPresenter.loadMorePhotos();
+    }
+
+    @Override
+    public void viewPhotoInfo() {
     }
 }

@@ -8,12 +8,12 @@ import com.android.databinding.library.baseAdapters.BR;
 import site.linyuange.awesome.splash.base.DataBindingViewHolder;
 
 
-public class FooterViewHolder extends DataBindingViewHolder {
+public class HomePhotoViewHolder extends DataBindingViewHolder {
 
     @NonNull
-    private OnFooterClickListener mListener;
+    private OnItemClickListener mListener;
 
-    public FooterViewHolder(ViewDataBinding binding, @NonNull OnFooterClickListener listener) {
+    public HomePhotoViewHolder(ViewDataBinding binding, @NonNull OnItemClickListener listener) {
         super(binding);
         mListener = listener;
     }
@@ -24,7 +24,10 @@ public class FooterViewHolder extends DataBindingViewHolder {
         getBinding().setVariable(BR.listener, mListener);
     }
 
-    public interface OnFooterClickListener {
+    public interface OnItemClickListener {
+
         void onFooterClicked();
+
+        void onPhotoClicked();
     }
 }
