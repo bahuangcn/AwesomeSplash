@@ -23,5 +23,6 @@ public class DataBindingViewHolder extends RecyclerView.ViewHolder {
     public void bind(@NonNull Object obj) {
         mBinding.setVariable(BR.item, obj);
         mBinding.setVariable(BR.position, getAdapterPosition());
+        mBinding.executePendingBindings();
     }
 }

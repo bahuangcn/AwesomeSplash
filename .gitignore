@@ -7,3 +7,4 @@
 /captures
 .externalNativeBuild
 /config-debug.properties
+app/fabric.properties

@@ -3,10 +3,8 @@ package site.linyuange.awesome.splash.home;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.graphics.ColorUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -18,8 +16,6 @@ import site.linyuange.awesome.splash.base.BaseDataBindingAdapter;
 import site.linyuange.awesome.splash.base.DataBindingViewHolder;
 import site.linyuange.awesome.splash.data.model.Footer;
 import site.linyuange.awesome.splash.data.model.PhotoEntity;
-import site.linyuange.awesome.splash.databinding.ItemHomePhotoBinding;
-import site.linyuange.awesome.splash.utils.ImageLoader;
 
 public class HomePhotoAdapter extends BaseDataBindingAdapter implements HomePhotoViewHolder.OnItemClickListener {
 
@@ -102,17 +98,7 @@ public class HomePhotoAdapter extends BaseDataBindingAdapter implements HomePhot
             if (mIsLoadMoreEnabled && !mIsLoading && mListener != null) {
                 loadMorePhotos();
             }
-            return;
         }
-        // DO NOT use data binding to set src size and download photo.
-        ItemHomePhotoBinding binding = (ItemHomePhotoBinding) holder.getBinding();
-        PhotoEntity item = binding.getItem();
-        if (item == null) return;
-        binding.splashPhoto.setSrcHeight(item.getHeight());
-        binding.splashPhoto.setSrcWidth(item.getWidth());
-        int color = ColorUtils.setAlphaComponent(Color.parseColor(item.getColor()), PHOTO_SUMMARY_TRANSPARENCY);
-        binding.photoSummary.setBackgroundColor(color);
-        ImageLoader.loadImage(binding.splashPhoto, item.getUrls().getRegular());
     }
 
     private void loadMorePhotos() {

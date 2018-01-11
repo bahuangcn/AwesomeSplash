@@ -32,11 +32,14 @@
 
         <site.linyuange.awesome.splash.view.SplashPhoto
             android:id="@+id/splash_photo"
+            SimpleLoadImage="@{item.urls.regular}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@{Color.parseColor(item.color)}"
             android:onClick="@{()-> listener.onPhotoClicked()}"
             app:guideSide="width"
+            app:srcHeight="@{item.height}"
+            app:srcWidth="@{item.width}"
             />
 
         <View
