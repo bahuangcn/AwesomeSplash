@@ -4,7 +4,7 @@ package site.linyuange.awesome.splash.data.network;
 import android.support.annotation.IntRange;
 import android.support.annotation.StringDef;
 
-import com.google.gson.GsonBuilder;
+import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.annotation.Retention;
@@ -13,9 +13,9 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import site.linyuange.awesome.splash.BuildConfig;
 import site.linyuange.awesome.splash.data.listener.GetDataCallback;
@@ -60,28 +60,50 @@ public class PhotoApi extends BaseRetrofitApi<PhotoApi.PhotoService> {
     }
 
     public void loadPhotos(@IntRange(from = 1) int page, @IntRange(from = 1) int perPage, String order, GetDataCallback<List<PhotoEntity>, String> callback) {
-        getService().getPhotos(page, perPage, order).enqueue(new Callback<String>() {
+        getService().getPhotos(page, perPage, order).enqueue(new ApiCallback<List<PhotoEntity>>(callback) {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.isSuccessful()) {
-                    List<PhotoEntity> list = new GsonBuilder().create().fromJson(response.body(), PHOTO_LIST_TYPE);
-                    callback.onDataLoaded(list);
-                } else {
-                    String msg = "response code is " + response.code() + response.message();
-                    callback.onDataNotAvailable(msg);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable throwable) {
-                callback.onDataNotAvailable(throwable.getMessage());
+            public void onSuccess(Response<String> response) {
+                List<PhotoEntity> list = new Gson().fromJson(response.body(), PHOTO_LIST_TYPE);
+                callback.onDataLoaded(list);
             }
         });
     }
+
+    public void loadCuratedPhotos(@IntRange(from = 1) int page, @IntRange(from = 1) int perPage, String order, GetDataCallback<List<PhotoEntity>, String> callback) {
+        getService().getCuratedPhotos(page, perPage, order).enqueue(new ApiCallback<List<PhotoEntity>>(callback) {
+            @Override
+            public void onSuccess(Response<String> response) {
+                List<PhotoEntity> list = new Gson().fromJson(response.body(), PHOTO_LIST_TYPE);
+                callback.onDataLoaded(list);
+            }
+        });
+    }
+
+    public void loadPhotoDetail(String id, GetDataCallback<PhotoEntity, String> callback) {
+        loadPhotoDetail(id, 0, 0, null, callback);
+    }
+
+    public void loadPhotoDetail(String id, int height, int width, String rect, GetDataCallback<PhotoEntity, String> callback) {
+        getService().getPhotoDetail(id, height, width, rect).enqueue(new ApiCallback<PhotoEntity>(callback) {
+            @Override
+            public void onSuccess(Response<String> response) {
+                PhotoEntity photo = new Gson().fromJson(response.body(), PhotoEntity.class);
+                callback.onDataLoaded(photo);
+            }
+        });
+    }
+
 
     interface PhotoService {
 
         @GET("photos/")
         Call<String> getPhotos(@Query("page") int page, @Query("per_page") int perPage, @Query("order_by") String orderType);
+
+        @GET("photos/curated/")
+        Call<String> getCuratedPhotos(@Query("page") int page, @Query("per_page") int perPage, @Query("order_by") String orderType);
+
+        // 4 comma-separated integers representing x, y, width, height of the cropped rectangle.
+        @GET("photos/{id}")
+        Call<String> getPhotoDetail(@Path("id") String id, @Query("h") int height, @Query("w") int width, @Query("rect") String rect);
     }
 }

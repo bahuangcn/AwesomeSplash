@@ -8,6 +8,8 @@ import okhttp3.Request;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 import site.linyuange.awesome.splash.BuildConfig;
+import site.linyuange.awesome.splash.data.listener.GetDataCallback;
+import site.linyuange.awesome.splash.data.listener.RetrofitCallback;
 
 public abstract class BaseRetrofitApi<T> {
 
@@ -91,4 +93,19 @@ public abstract class BaseRetrofitApi<T> {
     protected abstract String getHost();
 
     protected abstract Class<T> getServiceClass();
+
+
+    static abstract class ApiCallback<T> implements RetrofitCallback<String> {
+
+        private GetDataCallback<T, String> mCallback;
+
+        ApiCallback(GetDataCallback<T, String> callback) {
+            mCallback = callback;
+        }
+
+        @Override
+        public void onFailure(String message) {
+            mCallback.onDataNotAvailable(message);
+        }
+    }
 }
