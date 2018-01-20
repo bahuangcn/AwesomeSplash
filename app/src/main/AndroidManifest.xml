@@ -32,10 +32,10 @@
 
         <meta-data
             android:name="net.hockeyapp.android.appIdentifier"
-            android:value="@string/hockey_app_id"/>
+            android:value="${HOCKEY_APP_ID}"/>
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="@string/fabri_id"/>
+            android:value="${FABRI_ID}"/>
     </application>
 
 </manifest>

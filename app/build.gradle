@@ -63,15 +63,39 @@ android {
         versionName "0.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    def FABRI_ID, HOCKEY_APP_ID
+    buildTypes.each {
+        def buildType = 'debug'.equals(it.name) ? 'debug' : it.name
+
+        Properties props = new Properties()
+        def propFile = file("../config-${buildType}.properties")
+
+        if (propFile.canRead()) {
+            props.load(new FileInputStream(propFile))
+            if (props != null) {
+                FABRI_ID = props['FABRI_ID']
+                HOCKEY_APP_ID = props['HOCKEY_APP_ID']
+                it.buildConfigField("String", "UNSPLASH_APPLICATION_ID", "\"${props['UNSPLASH_APPLICATION_ID']}\"")
+                it.buildConfigField("String", "API_UNSPLASH_COM", "\"${props['API_UNSPLASH_COM']}\"")
+                it.buildConfigField("String", "BUGLY_APP_ID", "\"${props['BUGLY_APP_ID']}\"")
+            }
+        }
+    }
+
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
             resValue "string", "app_name", "Debug Awesome Splash"
+            manifestPlaceholders = [FABRI_ID     : FABRI_ID,
+                                    HOCKEY_APP_ID: HOCKEY_APP_ID]
         }
         release {
             resValue "string", "app_name", "Awesome Splash"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            manifestPlaceholders = [FABRI_ID     : FABRI_ID,
+                                    HOCKEY_APP_ID: HOCKEY_APP_ID]
         }
     }
 
@@ -84,21 +108,4 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    buildTypes.each {
-        def buildType = 'debug'.equals(it.name) ? 'debug' : it.name
-
-        def Properties props = new Properties()
-        def propFile = file("../config-${buildType}.properties")
-
-        if (propFile.canRead()) {
-            props.load(new FileInputStream(propFile))
-            if (props != null) {
-                it.resValue("string", "fabri_id", props['FABRI_ID'])
-                it.resValue("string", "hockey_app_id", "\"${props['HOCKEY_APP_ID']}\"")
-                it.buildConfigField("String", "UNSPLASH_APPLICATION_ID", "\"${props['UNSPLASH_APPLICATION_ID']}\"")
-                it.buildConfigField("String", "API_UNSPLASH_COM", "\"${props['API_UNSPLASH_COM']}\"")
-                it.buildConfigField("String", "BUGLY_APP_ID", "\"${props['BUGLY_APP_ID']}\"")
-            }
-        }
-    }
 }
