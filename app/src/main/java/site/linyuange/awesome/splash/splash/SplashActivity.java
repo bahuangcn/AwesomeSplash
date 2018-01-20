@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Handler;
 
 import com.crashlytics.android.Crashlytics;
+import com.facebook.stetho.Stetho;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import net.hockeyapp.android.CrashManager;
@@ -24,6 +25,7 @@ public class SplashActivity extends AbsBaseActivity {
         Fabric.with(applicationContext, new Crashlytics());
         CrashManager.register(applicationContext);
         CrashReport.initCrashReport(applicationContext, BuildConfig.BUGLY_APP_ID, false);
+        Stetho.initializeWithDefaults(applicationContext);
 
         new Handler().postDelayed(() -> {
             Intent intent = new Intent(SplashActivity.this, MainActivity.class);

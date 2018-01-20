@@ -1,6 +1,8 @@
 package site.linyuange.awesome.splash.data.network;
 
 
+import com.facebook.stetho.okhttp3.StethoInterceptor;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -45,6 +47,7 @@ public abstract class BaseRetrofitApi<T> {
 
                     return chain.proceed(requestBuilder.build());
                 })
+                .addNetworkInterceptor(new StethoInterceptor())
                 .build();
     }
 
