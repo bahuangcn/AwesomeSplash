@@ -85,14 +85,15 @@ public class HomePhotoAdapter extends BaseDataBindingAdapter implements HomePhot
     }
 
     @Override
-    public DataBindingViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @NonNull
+    public DataBindingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         ViewDataBinding binding = DataBindingUtil.inflate(inflater, viewType, parent, false);
         return new HomePhotoViewHolder(binding, this);
     }
 
     @Override
-    public void onBindViewHolder(DataBindingViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull DataBindingViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
         if (isLastItem(position)) {
             if (mIsLoadMoreEnabled && !mIsLoading && mListener != null) {
