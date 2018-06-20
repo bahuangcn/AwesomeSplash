@@ -21,7 +21,7 @@ dependencies {
     implementation 'com.android.support:support-v4:27.1.1'
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:design:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
 
     implementation 'com.google.code.gson:gson:2.8.2'
 
@@ -50,7 +50,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    compile('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.4@aar') {
         transitive = true;
     }
 }
@@ -67,7 +67,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
-    def FABRI_ID, HOCKEY_APP_ID
+    def FABRIC_ID, HOCKEY_APP_ID
     buildTypes.each {
         def buildType = 'debug'.equals(it.name) ? 'debug' : it.name
 
@@ -77,11 +77,12 @@ android {
         if (propFile.canRead()) {
             props.load(new FileInputStream(propFile))
             if (props != null) {
-                FABRI_ID = props['FABRI_ID']
+                FABRIC_ID = props['FABRIC_ID']
                 HOCKEY_APP_ID = props['HOCKEY_APP_ID']
-                it.buildConfigField("String", "UNSPLASH_APPLICATION_ID", "\"${props['UNSPLASH_APPLICATION_ID']}\"")
-                it.buildConfigField("String", "API_UNSPLASH_COM", "\"${props['API_UNSPLASH_COM']}\"")
-                it.buildConfigField("String", "BUGLY_APP_ID", "\"${props['BUGLY_APP_ID']}\"")
+
+                props.each { prop ->
+                    it.buildConfigField("String", prop.key, "\"${prop.value}\"")
+                }
             }
         }
     }
@@ -90,14 +91,14 @@ android {
         debug {
             applicationIdSuffix ".debug"
             resValue "string", "app_name", "Debug Awesome Splash"
-            manifestPlaceholders = [FABRI_ID     : FABRI_ID,
+            manifestPlaceholders = [FABRI_ID     : FABRIC_ID,
                                     HOCKEY_APP_ID: HOCKEY_APP_ID]
         }
         release {
             resValue "string", "app_name", "Awesome Splash"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            manifestPlaceholders = [FABRI_ID     : FABRI_ID,
+            manifestPlaceholders = [FABRI_ID     : FABRIC_ID,
                                     HOCKEY_APP_ID: HOCKEY_APP_ID]
         }
     }
