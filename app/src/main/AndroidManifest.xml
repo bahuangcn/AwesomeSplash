@@ -30,6 +30,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".detail.PhotoDetailActivity" />
+
         <meta-data
             android:name="net.hockeyapp.android.appIdentifier"
             android:value="${HOCKEY_APP_ID}"/>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.graphics.Color" />
+
+        <variable
+            name="item"
+            type="site.linyuange.awesome.splash.data.model.PhotoEntity" />
+
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <site.linyuange.awesome.splash.view.SplashPhoto
+            android:id="@+id/splash_photo"
+            SimpleLoadImage="@{item.urls.regular}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@{Color.parseColor(item.color)}"
+            app:guideSide="width"
+            app:srcHeight="@{item.height}"
+            app:srcWidth="@{item.width}" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>
