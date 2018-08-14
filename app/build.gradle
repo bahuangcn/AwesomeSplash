@@ -41,7 +41,11 @@ dependencies {
         transitive = false
     }
 
-    implementation 'net.hockeyapp.android:HockeySDK:5.1.0'
+    // mta 主包
+    implementation 'com.qq.mta:mta:3.4.2'
+    // mid 基础包
+    implementation 'com.tencent.mid:mid:3.73-release'
+
     implementation 'com.tencent.bugly:crashreport:2.6.6'
 
     implementation 'com.facebook.stetho:stetho:1.5.0'
@@ -67,7 +71,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
-    def FABRIC_ID, HOCKEY_APP_ID
+    def FABRIC_ID, MTA_APPKEY
     buildTypes.each {
         def buildType = 'debug'.equals(it.name) ? 'debug' : it.name
 
@@ -78,7 +82,7 @@ android {
             props.load(new FileInputStream(propFile))
             if (props != null) {
                 FABRIC_ID = props['FABRIC_ID']
-                HOCKEY_APP_ID = props['HOCKEY_APP_ID']
+                MTA_APPKEY = props['MTA_APPKEY']
 
                 props.each { prop ->
                     it.buildConfigField("String", prop.key, "\"${prop.value}\"")
@@ -91,15 +95,21 @@ android {
         debug {
             applicationIdSuffix ".debug"
             resValue "string", "app_name", "Debug Awesome Splash"
-            manifestPlaceholders = [FABRI_ID     : FABRIC_ID,
-                                    HOCKEY_APP_ID: HOCKEY_APP_ID]
+            manifestPlaceholders = [
+                    FABRIC_ID  : FABRIC_ID,
+                    MTA_APPKEY : MTA_APPKEY,
+                    MTA_CHANNEL: "default",
+            ]
         }
         release {
             resValue "string", "app_name", "Awesome Splash"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            manifestPlaceholders = [FABRI_ID     : FABRIC_ID,
-                                    HOCKEY_APP_ID: HOCKEY_APP_ID]
+            manifestPlaceholders = [
+                    FABRIC_ID  : FABRIC_ID,
+                    MTA_APPKEY : MTA_APPKEY,
+                    MTA_CHANNEL: "default",
+            ]
         }
     }
 

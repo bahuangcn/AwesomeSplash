@@ -33,11 +33,8 @@
         <activity android:name=".detail.PhotoDetailActivity" />
 
         <meta-data
-            android:name="net.hockeyapp.android.appIdentifier"
-            android:value="${HOCKEY_APP_ID}"/>
-        <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="${FABRI_ID}"/>
+            android:value="${FABRIC_ID}"/>
     </application>
 
 </manifest>

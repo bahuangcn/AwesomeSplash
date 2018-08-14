@@ -21,3 +21,6 @@
 #-renamesourcefileattribute SourceFile
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}
+# tencent mta
+-keep class com.tencent.stat.*{*;}
+-keep class com.tencent.mid.*{*;}
