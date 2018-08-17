@@ -1,11 +1,16 @@
 package site.linyuange.awesome.splash.detail;
 
 import android.app.Activity;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 
 import site.linyuange.awesome.splash.R;
 import site.linyuange.awesome.splash.base.AbsBaseActivity;
+import site.linyuange.awesome.splash.data.model.PhotoEntity;
 import site.linyuange.awesome.splash.databinding.ActivityPhotoDetailBinding;
+import site.linyuange.awesome.splash.vm.PhotoViewModel;
 
 /**
  * Author: BaHuang
@@ -42,5 +47,12 @@ public class PhotoDetailActivity extends AbsBaseActivity {
         if (mPosition < 0) {
             finish();
         }
+
+        ViewModelProviders.of(this).get(PhotoViewModel.class).getPhoto().observe(this, new Observer<PhotoEntity>() {
+            @Override
+            public void onChanged(@Nullable PhotoEntity photo) {
+                mBinding.setItem(photo);
+            }
+        });
     }
 }

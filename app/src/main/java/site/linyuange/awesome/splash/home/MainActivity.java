@@ -1,5 +1,6 @@
 package site.linyuange.awesome.splash.home;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.databinding.DataBindingUtil;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -11,6 +12,7 @@ import site.linyuange.awesome.splash.R;
 import site.linyuange.awesome.splash.base.AbsBaseActivity;
 import site.linyuange.awesome.splash.data.model.PhotoEntity;
 import site.linyuange.awesome.splash.databinding.ActivityMainBinding;
+import site.linyuange.awesome.splash.vm.PhotoViewModel;
 
 public class MainActivity extends AbsBaseActivity implements HomeContract.View,
         HomePhotoAdapter.OnListPerformListener {
@@ -18,6 +20,7 @@ public class MainActivity extends AbsBaseActivity implements HomeContract.View,
     private static final int DISPLAY_PHOTOS_DURATION = 700;
     private static final int ADD_MORE_PHOTOS_DELAY = 700;
 
+    private PhotoViewModel mPhotoModel;
     private Handler mHandler;
 
     private ActivityMainBinding mBinding;
@@ -31,6 +34,7 @@ public class MainActivity extends AbsBaseActivity implements HomeContract.View,
 
     @Override
     protected void initData() {
+        initViewModel();
         mHandler = new Handler();
         mAdapter = new HomePhotoAdapter(this);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -74,5 +78,12 @@ public class MainActivity extends AbsBaseActivity implements HomeContract.View,
 
     @Override
     public void viewPhotoInfo() {
+    }
+
+    private void initViewModel() {
+        mPhotoModel = ViewModelProviders.of(this).get(PhotoViewModel.class);
+        mPhotoModel.getPhotoList().observe(this, photoList -> {
+
+        });
     }
 }
