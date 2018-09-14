@@ -1,53 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
-        <import type="android.graphics.Color"/>
-
+        <import type="android.graphics.Color" />
         <variable
             name="item"
-            type="site.linyuange.awesome.splash.data.model.PhotoEntity"
-            />
-
+            type="site.linyuange.awesome.splash.data.model.PhotoEntity" />
         <variable
             name="position"
-            type="int"
-            />
-
+            type="int" />
         <variable
             name="listener"
-            type="site.linyuange.awesome.splash.home.HomePhotoViewHolder.OnItemClickListener"
-            />
+            type="site.linyuange.awesome.splash.home.HomePhotoViewHolder.OnItemClickListener" />
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
-        <site.linyuange.awesome.splash.view.SplashPhoto
-            android:id="@+id/splash_photo"
-            SimpleLoadImage="@{item.urls.regular}"
+        <site.linyuange.awesome.splash.view.RatioImageView
+            android:id="@+id/iv_ratio_photo"
+            SimpleLoadImage="@{item}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@{Color.parseColor(item.color)}"
             android:onClick="@{()-> listener.onPhotoClicked()}"
             app:guideSide="width"
             app:srcHeight="@{item.height}"
-            app:srcWidth="@{item.width}"
-            />
+            app:srcWidth="@{item.width}" />
 
         <View
             android:id="@+id/photo_summary"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_36"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
+            app:layout_constraintBottom_toBottomOf="@+id/iv_ratio_photo" />
 
         <TextView
             android:id="@+id/tv_name"
@@ -59,7 +47,6 @@
             android:textSize="@dimen/sp_18"
             app:layout_constraintBottom_toBottomOf="@+id/photo_summary"
             app:layout_constraintRight_toRightOf="@+id/photo_summary"
-            app:layout_constraintTop_toTopOf="@+id/photo_summary"
-            />
+            app:layout_constraintTop_toTopOf="@+id/photo_summary" />
     </android.support.constraint.ConstraintLayout>
 </layout>

@@ -9,7 +9,7 @@ import android.util.AttributeSet;
 
 import site.linyuange.awesome.splash.R;
 
-public class SplashPhoto extends AppCompatImageView {
+public class RatioImageView extends AppCompatImageView {
 
     private static final int GUIDE_WIDTH = 0;
     private static final int GUIDE_HEIGHT = 1;
@@ -19,21 +19,22 @@ public class SplashPhoto extends AppCompatImageView {
     private float mSrcWidth;
     private float mSrcHeight;
 
-    public SplashPhoto(Context context) {
+    public RatioImageView(Context context) {
         this(context, null);
     }
 
-    public SplashPhoto(Context context, AttributeSet attrs) {
+    public RatioImageView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public SplashPhoto(Context context, AttributeSet attrs, int defStyleAttr) {
+    public RatioImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.SplashPhoto, defStyleAttr, 0);
-        mGuideSide = typedArray.getInt(R.styleable.SplashPhoto_guideSide, GUIDE_WIDTH);
-        mSrcWidth = typedArray.getFloat(R.styleable.SplashPhoto_srcWidth, DEFAULT_SRC_SIZE);
-        mSrcHeight = typedArray.getFloat(R.styleable.SplashPhoto_srcHeight, DEFAULT_SRC_SIZE);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RatioImageView, defStyleAttr, 0);
+        mGuideSide = typedArray.getInt(R.styleable.RatioImageView_guideSide, GUIDE_WIDTH);
+        mSrcWidth = typedArray.getFloat(R.styleable.RatioImageView_srcWidth, DEFAULT_SRC_SIZE);
+        mSrcHeight = typedArray.getFloat(R.styleable.RatioImageView_srcHeight, DEFAULT_SRC_SIZE);
         typedArray.recycle();
+        setScaleType(ScaleType.FIT_XY);
     }
 
     public void setSrcHeight(float srcHeight) {

@@ -17,9 +17,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <site.linyuange.awesome.splash.view.SplashPhoto
-            android:id="@+id/splash_photo"
-            SimpleLoadImage="@{item.urls.regular}"
+        <site.linyuange.awesome.splash.view.RatioImageView
+            android:id="@+id/iv_ratio_photo"
+            SimpleLoadImage="@{item}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@{Color.parseColor(item.color)}"
