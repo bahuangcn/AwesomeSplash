@@ -7,9 +7,7 @@ import android.os.Handler;
 
 import com.crashlytics.android.Crashlytics;
 import com.facebook.stetho.Stetho;
-import com.tencent.bugly.crashreport.CrashReport;
 
-import net.hockeyapp.android.CrashManager;
 
 import io.fabric.sdk.android.Fabric;
 import site.linyuange.awesome.splash.BuildConfig;
@@ -23,8 +21,6 @@ public class SplashActivity extends AbsBaseActivity {
 
         Context applicationContext = getApplicationContext();
         Fabric.with(applicationContext, new Crashlytics());
-        CrashManager.register(applicationContext);
-        CrashReport.initCrashReport(applicationContext, BuildConfig.BUGLY_APP_ID, false);
         Stetho.initializeWithDefaults(applicationContext);
 
         new Handler().postDelayed(() -> {
