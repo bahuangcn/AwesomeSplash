@@ -43,6 +43,7 @@ dependencies {
         //exclude group: 'com.squareup.okhttp3', module: 'okhttp'
         transitive = false
     }
+    implementation 'jp.wasabeef:glide-transformations:4.0.1'
 
     implementation 'net.hockeyapp.android:HockeySDK:5.0.4'
 

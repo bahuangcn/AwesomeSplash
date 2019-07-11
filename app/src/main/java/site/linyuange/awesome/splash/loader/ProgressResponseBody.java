@@ -1,0 +1,84 @@
+package site.linyuange.awesome.splash.loader;
+
+import android.support.annotation.NonNull;
+import android.util.Log;
+
+import java.io.IOException;
+
+import okhttp3.MediaType;
+import okhttp3.ResponseBody;
+import okio.Buffer;
+import okio.BufferedSource;
+import okio.ForwardingSource;
+import okio.Okio;
+import okio.Source;
+
+/**
+ * Author: BaHuang
+ * Date: 2019/7/11 17:02
+ */
+public class ProgressResponseBody extends ResponseBody {
+
+    private static final String TAG = "ProgressResponseBody";
+
+    private BufferedSource mBufferedSource;
+
+    private ResponseBody mResponseBody;
+
+    private ProgressListener mListener;
+
+    public ProgressResponseBody(String url, ResponseBody responseBody) {
+        this.mResponseBody = responseBody;
+        mListener = ProgressInterceptor.LISTENER_MAP.get(url);
+    }
+
+    @Override
+    public MediaType contentType() {
+        return mResponseBody.contentType();
+    }
+
+    @Override
+    public long contentLength() {
+        return mResponseBody.contentLength();
+    }
+
+    @Override
+    public BufferedSource source() {
+        if (mBufferedSource == null) {
+            mBufferedSource = Okio.buffer(new ProgressSource(mResponseBody.source()));
+        }
+        return mBufferedSource;
+    }
+
+    private class ProgressSource extends ForwardingSource {
+
+        long totalBytesRead = 0;
+
+        int currentProgress;
+
+        ProgressSource(Source source) {
+            super(source);
+        }
+
+        @Override
+        public long read(@NonNull Buffer sink, long byteCount) throws IOException {
+            final long bytesRead = super.read(sink, byteCount);
+            long fullLength = mResponseBody.contentLength();
+            if (bytesRead == -1) {
+                totalBytesRead = fullLength;
+            } else {
+                totalBytesRead += bytesRead;
+            }
+            int progress = (int) (100f * totalBytesRead / fullLength);
+            Log.d(TAG, "download progress is " + progress);
+            if (mListener != null && progress != currentProgress) {
+                mListener.onProgress(progress);
+            }
+            if (mListener != null && totalBytesRead == fullLength) {
+                mListener = null;
+            }
+            currentProgress = progress;
+            return bytesRead;
+        }
+    }
+}
