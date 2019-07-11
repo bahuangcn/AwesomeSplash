@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -16,12 +17,12 @@ import site.linyuange.awesome.splash.base.BaseDataBindingAdapter;
 import site.linyuange.awesome.splash.base.DataBindingViewHolder;
 import site.linyuange.awesome.splash.data.model.Footer;
 import site.linyuange.awesome.splash.data.model.PhotoEntity;
+import site.linyuange.awesome.splash.databinding.ItemHomePhotoBinding;
+import site.linyuange.awesome.splash.loader.ImageLoader;
 
 public class HomePhotoAdapter extends BaseDataBindingAdapter implements HomePhotoViewHolder.OnItemClickListener {
 
     private static final int FOOTER_ITEM_COUNT = 1;
-    // 20% transparency: 255 * 0.2 = 55
-    private static final int PHOTO_SUMMARY_TRANSPARENCY = 55;
 
     private static final Footer LOADING_STATE = new Footer();
     private static final Footer COMPLETED_STATE = new Footer();
@@ -38,6 +39,7 @@ public class HomePhotoAdapter extends BaseDataBindingAdapter implements HomePhot
 
 
     private OnListPerformListener mListener;
+    private RecyclerView mAttachedRV;
 
     @NonNull
     private List<PhotoEntity> mPhotos = new ArrayList<>();
@@ -85,6 +87,12 @@ public class HomePhotoAdapter extends BaseDataBindingAdapter implements HomePhot
     }
 
     @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        mAttachedRV = recyclerView;
+    }
+
+    @Override
     @NonNull
     public DataBindingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -95,6 +103,11 @@ public class HomePhotoAdapter extends BaseDataBindingAdapter implements HomePhot
     @Override
     public void onBindViewHolder(@NonNull DataBindingViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
+        if (holder.getBinding() instanceof ItemHomePhotoBinding) {
+            ItemHomePhotoBinding binding = (ItemHomePhotoBinding) holder.getBinding();
+            ImageLoader.loadImage(mAttachedRV, binding.splashPhoto, mPhotos.get(position));
+        }
+
         if (isLastItem(position)) {
             if (mIsLoadMoreEnabled && !mIsLoading && mListener != null) {
                 loadMorePhotos();

@@ -1,9 +1,10 @@
 package site.linyuange.awesome.splash.home;
 
 import android.databinding.DataBindingUtil;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
+
+import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader;
 
 import java.util.List;
 
@@ -11,14 +12,11 @@ import site.linyuange.awesome.splash.R;
 import site.linyuange.awesome.splash.base.AbsBaseActivity;
 import site.linyuange.awesome.splash.data.model.PhotoEntity;
 import site.linyuange.awesome.splash.databinding.ActivityMainBinding;
+import site.linyuange.awesome.splash.loader.GlideApp;
+import site.linyuange.awesome.splash.loader.Preload;
 
 public class MainActivity extends AbsBaseActivity implements HomeContract.View,
         HomePhotoAdapter.OnListPerformListener {
-
-    private static final int DISPLAY_PHOTOS_DURATION = 700;
-    private static final int ADD_MORE_PHOTOS_DELAY = 700;
-
-    private Handler mHandler;
 
     private ActivityMainBinding mBinding;
     private HomePresenter mPresenter;
@@ -31,11 +29,22 @@ public class MainActivity extends AbsBaseActivity implements HomeContract.View,
 
     @Override
     protected void initData() {
-        mHandler = new Handler();
+        Preload.ModelProvider modelProvider = new Preload.ModelProvider(mBinding.recyclerView, new Preload.ModelProvider.PreloadListener() {
+            @Override
+            public void onAllItemPreloaded() {
+//                mPresenter.loadMorePhotos();
+            }
+        });
+        RecyclerViewPreloader<PhotoEntity> preloader = new RecyclerViewPreloader<>(
+                GlideApp.with(mBinding.recyclerView),
+                modelProvider,
+                new Preload.SizeProvider(),
+                5);
+
         mAdapter = new HomePhotoAdapter(this);
+        mBinding.recyclerView.addOnScrollListener(preloader);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         mBinding.recyclerView.setAdapter(mAdapter);
-        mBinding.recyclerView.setAlpha(0);
         mPresenter = new HomePresenter(this);
         mPresenter.start();
     }
@@ -47,19 +56,16 @@ public class MainActivity extends AbsBaseActivity implements HomeContract.View,
 
     @Override
     public void showPhotos(@NonNull List<PhotoEntity> photos) {
+        Preload.PHOTO_LIST.addAll(photos);
         mAdapter.setPhotos(photos);
-        mBinding.recyclerView
-                .animate()
-                .alphaBy(0)
-                .alpha(1)
-                .setDuration(DISPLAY_PHOTOS_DURATION);
         mAdapter.setLoadMoreEnabled(true);
     }
 
     @Override
     public void showMorePhotos(@NonNull List<PhotoEntity> photos) {
+        Preload.PHOTO_LIST.addAll(photos);
         mAdapter.loadCompleted();
-        mHandler.postDelayed(() -> mAdapter.addMorePhotos(photos), ADD_MORE_PHOTOS_DELAY);
+        mAdapter.addMorePhotos(photos);
     }
 
     @Override
